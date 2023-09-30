@@ -1,3 +1,4 @@
+from functools import reduce
 import readchar
 import os
 import time
@@ -54,13 +55,14 @@ class Juego:
 
 def convertir_mapa(mapa_str):
     filas = mapa_str.strip().split("\n")
-    matriz = [list(fila) for fila in filas]
+    matriz = list(map(list, filas))
     return matriz
 
 class JuegoArchivo(Juego):
     def __init__(self, mapa_archivo):
         with open("mapa.txt", "r") as archivo:
-            mapa_str = archivo.read()
+            lineas = archivo.readlines()
+            mapa_str = reduce(lambda x, y: x+y, lineas)
             super().__init__(mapa_str, posicion_inicial, posicion_final)
 
 if __name__ == "__main__":
